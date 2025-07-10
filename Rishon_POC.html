@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>Rashbot - עיריית ראשון לציון</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-image: url('rishon_background.png'); /* החלף לתמונה שלך */
+            background-size: cover;
+        }
+
+        #chat-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: #005eb8;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            font-size: 28px;
+            cursor: pointer;
+            z-index: 10000;
+        }
+
+        #chat-container {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 400px;
+            height: 600px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            background-color: #fff;
+            overflow: hidden;
+            display: none;
+            z-index: 9999;
+        }
+
+            #chat-container iframe {
+                width: 100%;
+                height: 100%;
+                border: none;
+            }
+    </style>
+</head>
+<body>
+
+    <!-- כפתור פתיחת הצ'אט -->
+    <button id="chat-button" title="פתח צ'אט">💬</button>
+
+    <!-- תיבת הצ'אט -->
+    <div id="chat-container">
+        <iframe src="https://web.powerva.microsoft.com/environments/8663c3cb-1cbe-e7dd-8911-20eb79277854/bots/cr10a_undefinedNameOfAgentsFunctionality/webchat?__version__=2" allow="microphone; geolocation;"></iframe>
+    </div>
+
+    <script>
+        const chatBtn = document.getElementById('chat-button');
+        const chatContainer = document.getElementById('chat-container');
+
+        chatBtn.addEventListener('click', () => {
+            if (chatContainer.style.display === 'none' || chatContainer.style.display === '') {
+                chatContainer.style.display = 'block';
+            } else {
+                chatContainer.style.display = 'none';
+            }
+        });
+    </script>
+
+</body>
+</html>
