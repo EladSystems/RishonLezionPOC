@@ -1,88 +1,74 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <title>Rashbot - עיריית ראשון לציון</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background-image: url('rishon_background.png');
-            background-size: cover;
-        }
+  <meta charset="UTF-8">
+  <title>ראשבוט - עיריית ראשון לציון</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+    }
 
-        #chat-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            background-color: #005eb8;
-            color: #fff;
-            border: none;
-            border-radius: 50%;
-            font-size: 28px;
-            cursor: pointer;
-            z-index: 10000;
-        }
+    #chat-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 400px;
+      height: 600px;
+      z-index: 9999;
+    }
 
-        #chat-container {
-            position: fixed;
-            bottom: 90px;
-            right: 20px;
-            width: 400px;
-            height: 600px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.3);
-            background-color: #fff;
-            overflow: hidden;
-            display: none;
-            z-index: 9999;
-        }
-    </style>
+    .chat-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      background-color: #005eb8;
+      color: white;
+      border-radius: 50%;
+      border: none;
+      font-size: 28px;
+      cursor: pointer;
+      z-index: 10000;
+    }
+  </style>
 </head>
 <body>
 
-    <button id="chat-button" title="פתח צ'אט">💬</button>
-    <div id="chat-container"></div>
+  <button class="chat-button" onclick="toggleChat()">💬</button>
+  <div id="chat-container" style="display:none;"></div>
 
-    <script type="module">
-        const chatBtn = document.getElementById('chat-button');
-        const chatContainer = document.getElementById('chat-container');
-        let isChatLoaded = false;
+  <script type="module">
+    import { bootstrapChat } from 'https://unpkg.com/@microsoft/agents-sdk@latest';
 
-        const conversationEndpoint = "https://8663c3cb1cbee7dd891120eb792778.54.environment.api.powerplatform.com/copilotstudio/dataverse-backed/authenticated/bots/cr10a_undefinedNameOfAgentsFunctionality/conversations?api-version=2022-03-01-preview";
+    const conversationEndpoint = "https://8663c3cb1cbee7dd891120eb792778.54.environment.api.powerplatform.com/copilotstudio/dataverse-backed/authenticated/bots/cr10a_undefinedNameOfAgentsFunctionality/conversations?api-version=2022-03-01-preview";
 
-        async function loadChat() {
-            const sdk = await import('https://unpkg.com/@microsoft/agents-sdk@latest');
-
-            sdk.bootstrapChat({
-                authentication: { type: "unauthenticated" },
-                apiVersion: "2022-03-01-preview",
-                style: {
-                    rtl: true
-                },
-                chatBox: {
-                    container: chatContainer
-                },
-                bot: {
-                    conversationEndpoint
-                }
-            });
-
-            isChatLoaded = true;
+    bootstrapChat({
+      container: document.getElementById("chat-container"),
+      bot: {
+        conversationEndpoint: conversationEndpoint
+      },
+      chatBox: {
+        position: "custom",
+        style: {
+          direction: "rtl",
+          textAlign: "right"
         }
+      },
+      localization: {
+        language: "he",
+        direction: "rtl"
+      }
+    });
 
-        chatBtn.addEventListener('click', async () => {
-            if (chatContainer.style.display === 'none' || chatContainer.style.display === '') {
-                chatContainer.style.display = 'block';
-                if (!isChatLoaded) await loadChat();
-            } else {
-                chatContainer.style.display = 'none';
-            }
-        });
-    </script>
+    function toggleChat() {
+      const container = document.getElementById("chat-container");
+      container.style.display = (container.style.display === 'none') ? 'block' : 'none';
+    }
+  </script>
+
 </body>
 </html>
